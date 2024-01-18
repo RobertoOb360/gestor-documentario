@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,700');
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background: rgb(223, 222, 222);
+    font-family: 'Poppins','sans-serif';
+    height: 1vh;
+}
+
+.background-container {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+}
+
+.ripple-background {
+    position: relative;
+    height: 1vh; /* Esto asegura que el fondo cubra toda la altura máxima del contenedor */
+    /* Resto de tus estilos para el fondo animado aquí */
+}
+
+body{
+    background: white;
+  }
+  
+  
+  .circle{
+    position: absolute;
+    bottom: 0;
+    border-radius: 50%;
+    background: #f07613;
+    animation: ripple 15s infinite;
+    box-shadow: 0px 0px 1px 0px white;
+  }
+  
+  .small{
+    width: 200px;
+    height: 200px;
+    left: -100px;
+    bottom: -100px;
+  }
+  
+  .medium{
+    width: 400px;
+    height: 400px;
+    left: -200px;
+    bottom: -200px;
+  }
+  
+  .large{
+    width: 600px;
+    height: 600px;
+    left: -300px;
+    bottom: -300px;
+  }
+  
+  .xlarge{
+    width: 800px;
+    height: 800px;
+    left: -400px;
+    bottom: -400px;
+  }
+  
+  .xxlarge{
+    width: 1000px;
+    height: 1000px;
+    left: -500px;
+    bottom: -500px;
+  }
+  
+  .shade1{
+    opacity: 0.2;
+  }
+  .shade2{
+    opacity: 0.5;
+  }
+  
+  .shade3{
+    opacity: 0.7;
+  }
+  
+  .shade4{
+    opacity: 0.8;
+  }
+  
+  .shade5{
+    opacity: 0.9;
+  }
+  
+  @keyframes ripple{
+    0%{
+      transform: scale(0.8);
+    }
+    
+    50%{
+      transform: scale(1.2);
+    }
+    
+    100%{
+      transform: scale(0.8);
+    }
+  }
+
+
+
+
+
+
+
+
+.navbar {
+    background-color: rgba(255, 255, 255, 0.829); /* Cambia el color de fondo de la barra de navegación */
+    color: #f07613; /* Cambia el color del texto a negro o el que desees */
+    display: flex;
+    position: fixed;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-logo img {
+    margin-right: 10px;
+}
+
+.navbar-links a {
+    color: #f07613; /* Cambia el color de los enlaces a negro o el que desees */
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+.navbar-links a:hover {
+    color: #a35413;
+}
+
+.slogan {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+    transform: translate(-50%, -50%);
+}
+
+.slogan h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+    color: #232115;
+}
+
+.slogan p {
+    font-size: 20px;
+    color: #232115A6;
+}
+
+
+.boton{
+    text-decoration: none;
+    background-color: #2FAC68;
+    padding: 10px;
+    border-radius: 6px;
+    color: white;
+}
+.boton:hover{
+    background-color: #25834f;
+}

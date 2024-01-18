@@ -1,0 +1,125 @@
+{% extends 'shared/layout.html' %}
+{% load static %}
+{% block icon %}{% static 'pics/image (1).png' %}{% endblock  %}
+{% block header %}Mi Perfil{% endblock  %}
+<!--SIDEBAR-->
+{% block icon1 %}{% static 'pics/user.png' %}{% endblock  %}
+{% block menu1 %}Perfil{% endblock  %}
+{% block menunom1 %}Perfil{% endblock  %}
+{% block url1 %}{%url 'perfil1' user.id%}{% endblock  %}
+
+{% block icon2 %}{% static 'pics/print.png' %}{% endblock  %}
+{% block menu2 %}Usuarios{% endblock  %}
+{% block menunom2 %}Usuarios{% endblock  %}
+{% block url2 %}{%url 'usuarios' user.id%}{% endblock  %}
+
+{% block icon3 %}{% static 'pics/notes.png' %}{% endblock  %}
+{% block menu3 %}Empresas{% endblock  %}
+{% block menunom3 %}Empresas{% endblock  %}
+{% block url3 %}{%url 'empresas' user.id%}{% endblock  %}
+
+{% block icon4 %}{% static 'pics/chart.png' %}{% endblock  %}
+{% block menu4 %}Actividades{% endblock  %}
+{% block menunom4 %}Actividades{% endblock  %}
+{% block url4 %}{%url 'seguimiento' user.id%}{% endblock  %}
+
+{% block icon5 %}{% static 'pics/imbox.png' %}{% endblock  %}
+{% block menu5 %}Documentos{% endblock  %}
+{% block menunom5 %}Documentos{% endblock  %}
+{% block url5 %}{%url 'archivos' user.id%}{% endblock  %}
+<!--CONTENT-->
+{% block content %}
+<br>
+<div class="container" style="display: flex;">
+    <div class="card w-75" >
+        <div style="display: flex;">
+            <div class="card-body">
+                <h5 class="card-title">Información Personal</h5>
+                <br>
+                <p class="card-text">Código: {{user.codigo}}</p>
+                <p class="card-text">Nombre: {{user.nombres}} </p>
+                <p class="card-text">Apellido: {{user.apellidos}}</p>
+                <p class="card-text">Correo: {{user.email}}</p>
+                <p class="card-text">Usuario: {{user.username}}</p>
+                <p class="card-text">Teléfono: {{user.telefono}}</p>
+                <br>
+                <br>
+                <button  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#datos">Actualizar Datos</button>
+                <button  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#foto">Cambiar Foto</button>
+              </div>
+              <div style="padding: 40px;display: flex;justify-content: center;">
+                  <img src="{{user.foto.url}}" width="250px">
+              </div>
+        </div>
+      </div>
+      <div class="card w-25" style="margin: 0 20px;">
+        <div class="card-body">
+          <h5 class="card-title">Actividad Reciente</h5>
+          <div class="rightbox">
+            <div class="rb-container">
+              <ul class="rb">
+                {% for historia in historial %}
+                <li class="rb-item" ng-repeat="itembx" style="width: 10rem;">
+                  <div class="timestamp">
+                    {{ historia.fecha }}
+                  </div>
+                  <div class="item-title">{{ historia.detalle.descripcion }}</div>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+<!--MODALS-->
+<div class="modal fade" id="foto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Subir Foto</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form.as_p }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Cargar</button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="datos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar Datos</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" enctype="multipart/form-data">
+          <label for="">Correo</label>
+          <input type="text" class="form-control" placeholder="{{user.email}}">
+          <label for="">Teléfono</label>
+          <input type="text" class="form-control" placeholder="{{user.telefono}}">
+          <label for="">Contraseña</label>
+          <input type="text" class="form-control" placeholder="{{user.password}}">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-success" data-bs-dismiss="modal" name="datos">Cargar</button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock  %}

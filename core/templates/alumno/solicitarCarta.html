@@ -1,0 +1,132 @@
+{% extends 'shared/layout.html' %}
+{% load static %}
+{% block icon %}{% static 'pics/image (1).png' %}{% endblock  %}
+{% block header %}Mi Perfil{% endblock  %}
+<!--SIDEBAR-->
+{% block icon1 %}{% static 'pics/user.png' %}{% endblock  %}
+{% block menu1 %}Perfil{% endblock  %}
+{% block menunom1 %}Perfil{% endblock  %}
+{% block url1 %}{%url 'perfil3' user.id%}{% endblock  %}
+
+{% block icon2 %}{% static 'pics/print.png' %}{% endblock  %}
+{% block menu2 %}Cargar Archivos{% endblock  %}
+{% block menunom2 %}Cargar Archivos{% endblock  %}
+{% block url2 %}{%url 'formatos2' user.id%}{% endblock  %}
+
+{% block icon3 %}{% static 'pics/notes.png' %}{% endblock  %}
+{% block menu3 %}Carta{% endblock  %}
+{% block menunom3 %}Carta{% endblock  %}
+{% block url3 %}{%url 'cartas2' user.id%}{% endblock  %}
+
+{% block icon4 %}{% static 'pics/chart.png' %}{% endblock  %}
+{% block menu4 %}Seguimiento{% endblock  %}
+{% block menunom4 %}Seguimiento{% endblock  %}
+{% block url4 %}{%url 'reportes2' user.id%}{% endblock  %}
+
+{% block icon5 %}{% static 'pics/imbox.png' %}{% endblock  %}
+{% block menu5 %}Repositorio{% endblock  %}
+{% block menunom5 %}Repositorio{% endblock  %}
+{% block url5 %}{%url 'repositorio2' user.id%}{% endblock  %}
+<!--CONTENT-->
+{% block content %}
+<br>
+<div class="container" style="display: flex;">
+    <div class="card">
+        <!-- CARD BODY -->
+        <div class="card-body mx-3">
+            <!-- formulario-->
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- fila 1 :: titulo -->
+                <div class="row mt-3">
+                    <!-- columna 1 -->
+                    <div class="col-12">
+                        <h5 class="card-title">Datos Generales</h5>
+                        <hr style="color: #0056b2;" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="text-danger"></div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-md-4 mb-3">
+                                <label for="id_empresa" class="form-label">Empresa<span class="text-danger">*</span></label>
+                                {{ form.empresa }}
+                                <span id="EmpresaError" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 mb-3">
+                                <label for="id_ruc" class="form-label">Ruc<span class="text-danger">*</span></label>
+                                {{ form.ruc }}
+                                <span id="RucError" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 mb-3">
+                                <label for="id_correo" class="form-label">Correo<span class="text-danger">*</span></label>
+                                {{ form.correo }}
+                                <span id="CorreoError" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 mb-3">
+                                <label for="id_telefono" class="form-label">Telefono<span class="text-danger">*</span></label>
+                                {{ form.telefono }}
+                                <span id="TelefonoError" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 mb-3">
+                                <label for="id_lugar" class="form-label">Lugar<span class="text-danger">*</span></label>
+                                {{ form.lugar }}
+                                <span id="LugarError" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 mb-3">
+                                <label for="id_destinatario" class="form-label">Destinatario<span class="text-danger">*</span></label>
+                                {{ form.destinatario }}
+                                <span id="DestinatarioError" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 mb-3">
+                                <label for="id_puesto" class="form-label">Puesto<span class="text-danger">*</span></label>
+                                {{ form.puesto }}
+                                <span id="PuestoError" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 mb-3">
+                                <label for="id_voucher" class="form-label">Voucher<span class="text-danger">*</span></label>
+                                {{ form.voucher }}
+                                <span id="VoucherError" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="card-footer bg-white border-0 mb-4 mx-3">
+            <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                    <input class="btn btn-outline-success form-control" type="submit">
+                </div>
+                <div class="col-12 col-sm-4 col-md-2">
+                    <a class="btn btn-outline-success form-control" onclick="">Limpiar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasTopLabel">Carga Completa</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      Su solicitud ha sido enviada exitosamente, en breve se realizarán las revisiones correspondientes.
+    </div>
+  </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% if success%}
+<script>
+    $(document).ready(function () {
+        // Selecciona el offcanvas por su ID y muestra el offcanvas
+        $('#offcanvas').offcanvas('show');
+    });
+</script>
+{% endif %}
+
+
+
+{% endblock  %}

@@ -1,0 +1,30 @@
+h2{
+    margin-bottom: 5px;
+}
+
+.box{
+    margin-left: 20px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.box::before{
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 120%;
+    background: #eaa74f;
+    left: -15px;
+    top: 10px;
+}
+
+.box:after{
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #eaa74f;
+    left: -21px;
+    top: 5px;
+}

@@ -1,0 +1,138 @@
+{% extends 'shared/layout.html' %}
+{% load static %}
+{% block icon %}{% static 'pics/image (1).png' %}{% endblock  %}
+{% block header %}Reportes{% endblock  %}
+<!--SIDEBAR-->
+{% block icon1 %}{% static 'pics/user.png' %}{% endblock  %}
+{% block menu1 %}Perfil{% endblock  %}
+{% block menunom1 %}Perfil{% endblock  %}
+{% block url1 %}{%url 'perfil2' user.id%}{% endblock  %}
+
+{% block icon2 %}{% static 'pics/print.png' %}{% endblock  %}
+{% block menu2 %}Formatos{% endblock  %}
+{% block menunom2 %}Formatos{% endblock  %}
+{% block url2 %}{%url 'formatos1' user.id%}{% endblock  %}
+
+{% block icon3 %}{% static 'pics/notes.png' %}{% endblock  %}
+{% block menu3 %}Cartas{% endblock  %}
+{% block menunom3 %}Cartas{% endblock  %}
+{% block url3 %}{%url 'cartas1' user.id%}{% endblock  %}
+
+{% block icon4 %}{% static 'pics/chart.png' %}{% endblock  %}
+{% block menu4 %}Reportes{% endblock  %}
+{% block menunom4 %}Reportes{% endblock  %}
+{% block url4 %}{%url 'reportes1' user.id%}{% endblock  %}
+
+{% block icon5 %}{% static 'pics/imbox.png' %}{% endblock  %}
+{% block menu5 %}Repositorio{% endblock  %}
+{% block menunom5 %}Repositorio{% endblock  %}
+{% block url5 %}{%url 'repositorio1' user.id%}{% endblock  %}
+
+<!--CONTENT-->
+{% block content %}
+<br>
+<div >
+    <div style="display: flex;">
+        <div class="card w-50" style="margin: 0 30px;"> 
+            <h5 style="padding: 8px;">Reporte de Usuarios Activos</h5>
+            <center>
+                <br><br>
+                <div style="margin: 0 6px">
+                    <canvas id="documentos"></canvas>
+                  </div>
+            </center>
+        </div>
+        <div class="card w-50" style="margin: 0 30px;"> 
+            <h5 style="padding: 8px;">Reporte de Documentos Subidos</h5>
+            <center>
+                <div style="width: 75%;height: 25rem;">
+                    <canvas id="usuarios" style=""></canvas>
+                  </div>
+            </center>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx1 = document.getElementById('documentos');
+  
+    new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: ['Administradores', 'Oficina', 'Estudiantes'],
+        datasets: [{
+          label: 'N° de Usuarios',
+          data: [{{ admi|default:"0" }}, {{ ofi|default:"0" }}, {{ est|default:"0" }}],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.5)',  // Color para Administradores
+            'rgba(54, 162, 235, 0.5)', // Color para Oficina
+            'rgba(255, 206, 86, 0.5)'   // Color para Estudiantes
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'bottom',
+          }
+        }
+      }
+    });
+  </script>
+  
+
+
+
+
+  <script>
+    const ctx = document.getElementById('usuarios');
+  
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['En Proceso', 'Observado', 'Conforme'],
+        datasets: [{
+          label: 'N° de Documentos',
+          data: [
+            {{ proc|default:"0" }},
+            {{ obs|default:"0" }},
+            {{ succ|default:"0" }},
+          ],
+          backgroundColor: [
+            'rgba(169, 169, 169, 0.5)',  // Gris para En Proceso
+            'rgba(255, 0, 0, 0.5)',      // Rojo para Observado
+            'rgba(0, 128, 0, 0.5)'       // Verde para Conforme
+          ],
+          borderColor: [
+            'rgba(169, 169, 169, 1)',
+            'rgba(255, 0, 0, 1)',
+            'rgba(0, 128, 0, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+          }
+        }
+      }
+    });
+  </script>
+  
+  
+{% endblock  %}

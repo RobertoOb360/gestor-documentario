@@ -1,0 +1,209 @@
+{% extends 'shared/layout.html' %}
+{% load static %}
+{% block icon %}{% static 'pics/image (3).png' %}{% endblock  %}
+{% block header %}Cartas{% endblock  %}
+<!--SIDEBAR-->
+{% block icon1 %}{% static 'pics/user.png' %}{% endblock  %}
+{% block menu1 %}Perfil{% endblock  %}
+{% block menunom1 %}Perfil{% endblock  %}
+{% block url1 %}{%url 'perfil2' user.id%}{% endblock  %}
+
+{% block icon2 %}{% static 'pics/print.png' %}{% endblock  %}
+{% block menu2 %}Formatos{% endblock  %}
+{% block menunom2 %}Formatos{% endblock  %}
+{% block url2 %}{%url 'formatos1' user.id%}{% endblock  %}
+
+{% block icon3 %}{% static 'pics/notes.png' %}{% endblock  %}
+{% block menu3 %}Cartas{% endblock  %}
+{% block menunom3 %}Cartas{% endblock  %}
+{% block url3 %}{%url 'cartas1' user.id%}{% endblock  %}
+
+{% block icon4 %}{% static 'pics/chart.png' %}{% endblock  %}
+{% block menu4 %}Reportes{% endblock  %}
+{% block menunom4 %}Reportes{% endblock  %}
+{% block url4 %}{%url 'reportes1' user.id%}{% endblock  %}
+
+{% block icon5 %}{% static 'pics/imbox.png' %}{% endblock  %}
+{% block menu5 %}Repositorio{% endblock  %}
+{% block menunom5 %}Repositorio{% endblock  %}
+{% block url5 %}{%url 'repositorio1' user.id%}{% endblock  %}
+<!--CONTENT-->
+{% block content %}
+<div class="container">
+    <br>
+    <div class="card border-secondary mb-3" style="max-width: 100%">
+      <div class="card-header border-secondary" style="font-weight: bold;"><h3>DETALLE DE CARTA</h3></div>
+      <div class="card-body text-secondary">
+        <h5 class="card-title text-center m-2" style="color: #eaa74f">Solicitud N° {{solicitud.cod}}</h5>
+        <div class="card-text">
+          <form action="" method="post">
+            <div class="row">
+              <div class="col-12 col-sm-6 col-md-4 mb-3">
+                <label class="form-label">Empresa</label>
+                <input type="text" name="" id="empresa" class="form-control" value="{{solicitud.empresa}}">
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 mb-3">
+                <label class="form-label">RUC</label>
+                <input type="text" name="" id="ruc" class="form-control" value="{{solicitud.ruc}}">
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 mb-3">
+                <label class="form-label">Correo Electrónico</label>
+                <input type="text" name="" id="correo" class="form-control" value="{{solicitud.correo}}">
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 mb-3">
+                <label class="form-label">Teléfono</label>
+                <input type="text" name="" id="telefono" class="form-control" value="{{solicitud.telefono}}">
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 mb-3">
+                <label class="form-label">Lugar</label>
+                <input type="text" name="" id="lugar" class="form-control" value="{{solicitud.lugar}}">
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 mb-3">
+                <label class="form-label">Destinatario</label>
+                <input type="text" name="" id="destinatario" class="form-control" value="{{solicitud.destinatario}}">
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 mb-3">
+                <label class="form-label">Puesto</label>
+                <input type="text" name="" id="puesto" class="form-control" value="{{solicitud.puesto}}">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="card-footer bg-transparent border-secondary text-center">
+        <button class="btn btn-success w-50 m-2" onclick="generar()">Generar Carta</button>
+      </div>
+    </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+  function generar(){
+    var empresa=document.getElementById('empresa').value;
+    var ruc=document.getElementById('ruc').value;
+    var correo=document.getElementById('correo').value;
+    var telefono=document.getElementById('telefono').value;
+    var lugar=document.getElementById('lugar').value;
+    var destinatario=document.getElementById('destinatario').value;
+    var puesto=document.getElementById('puesto').value;
+    const meses = [
+"enero", "febrero", "marzo", "abril", "mayo", "junio",
+"julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+];
+
+const dias = [
+"domingo", "lunes", "martes", "miércoles",
+"jueves", "viernes", "sábado"
+];
+
+const hoy = new Date();
+const dia = hoy.getDate();
+const mes = meses[hoy.getMonth()];
+const año = hoy.getFullYear();
+const diaSemana = dias[hoy.getDay()];
+
+const fecha = `${dia} de ${mes} de ${año}`;
+
+    var cod="{{solicitud.cod}}";
+    var nombre="{{solicitud.solicitante.nombres}} {{solicitud.solicitante.apellidos}}"
+    var dni="{{solicitud.solicitante.dni}}"
+    var ciclo='10mo Ciclo'
+    var codigo="{{solicitud.solicitante.dni}}"
+    var carrera='Ingeniería de Sistemas'
+    var cadena='CARTA N°'+cod+'-FIIS-OPPP-'+nombre;
+
+    var file= cadena.toUpperCase();
+    generarPDF(fecha,cod,empresa,ruc,correo,telefono,lugar,destinatario,puesto,nombre,dni,ciclo,codigo,carrera,file);
+
+  }
+</script>
+
+<script type="text/javascript">
+  function generarPDF(fecha,cod,empresa,ruc,correo,telef,lugar,destinatario,puesto,practicante,dni,ciclo,codigo,carrera,file) {
+    window.jsPDF = window.jspdf.jsPDF;
+    var doc = new jsPDF();
+    doc.addImage("{% static 'pics/Logo-unfv.jpg' %}", 'JPEG', 25, 10, 40, 20);
+    doc.addImage("{% static 'pics/fiis.png' %}", 'PNG', 145, 10, 40, 20);
+    doc.addImage("{% static 'pics/sello1.png' %}", 'PNG', 25, 190, 30, 30);
+    doc.addImage("{% static 'pics/sello2.png' %}", 'PNG', 90, 195, 40, 20);
+    doc.addImage("{% static 'pics/Firma_decano.png' %}", 'PNG', 40, 225, 30, 15);
+    doc.addImage("{% static 'pics/Firma_jefe.png' %}", 'PNG', 150, 210, 30, 15);
+    centrar(doc,"FACULTAD DE INGENIERÍA INDUSTRIAL Y DE SISTEMAS","normal","12",40);
+    centrar(doc,"OFICINA DE PRÁCTICAS PRE PROFESIONALES","bold","12",45);
+    derecha(doc,"Lima, "+fecha,"italic","10",55);
+    izquierda(doc,"CARTA N°"+cod+"-OPPP-FIIS-UNFV","bolditalic","10",60);
+    izquierda(doc,"Señores:","italic","10",67);
+    izquierda(doc,empresa,"bolditalic","10",72);
+    izquierda(doc,"Ruc: "+ruc,"italic","10",77);
+    izquierda(doc,"Correo de la empresa: "+correo,"italic","10",82);
+    izquierda(doc,"Teléfono de la empresa: "+telef,"italic","10",87);
+    izquierda(doc,"Dirección de la empresa: "+lugar,"italic","10",92);
+    izquierda(doc,"Presente. –","italic","10",97);
+    sangriaderecha(doc,"Estimado: "+destinatario,"italic","10",105,50);
+    sangriaderecha(doc,puesto,"italic","10",110,50);
+    izquierda(doc,"Es grato dirigirnos a su Despacho, para expresarle nuestro saludo cordial, en nombre de la Facultad de Ingeniería","italic","10",120);
+    izquierda(doc,"Industrial y de Sistemas, de la Universidad Nacional Federico Villarreal, y a la vez, presentarle a:","italic","10",125);
+    centrar(doc,practicante,"bolditalic","12",135);
+    centrar(doc,"DNI: "+dni,"bolditalic","12",140);
+    izquierda(doc,"Estudiante del 5to. Año ("+ciclo+"), con Código de Matricula N.º"+codigo+", de la Carrera Profesional de","italic","10",150);
+    izquierda(doc,carrera+", y de conformidad con lo establecido en la Ley Nº 28518“Ley de Modalidades Formativas","italic","10",154);
+    izquierda(doc,"Laborales”, Decreto Legislativo Nº 1401 “Régimen Especial que regula las Modalidades Formativas de Servicios","italic","10",158);
+    izquierda(doc,"en el Sector Publico” y su Reglamento aprobado por el Decreto Supremo Nº 083-2019-PCM, solicitarle le permita","italic","10",162);
+    izquierda(doc,"realizar su Prácticas Pre Profesionales en su prestigiosa empresa; para lo cual utilizará todos los conocimientos","italic","10",166);
+    izquierda(doc,"adquiridos en esta Facultad.","italic","10",170);
+    izquierda(doc,"Vuestra aceptación permitirá que el (la) mencionado (a) estudiante, complete su desarrollo profesional aplicando","italic","10",178);
+    izquierda(doc,"sus conocimientos a la realidad empresarial, y cumpla con su Plan de Estudios de acuerdo a normas académicas","italic","10",182);
+    izquierda(doc,"vigentes, en esta Casa Superior de Estudios. ","italic","10",186);
+    sangriaderecha(doc,"Atentamente,","italic","10",191,80);
+    derecha(doc,"Ing. Victor Gonzalo Villanueva Guzman","bolditalic","11",225);
+    derecha(doc,"Jefe de la Oficina de Practicas Pre Profesionales","bolditalic","11",230);
+    izquierda(doc,"Dr. PERVIS PAREDES PAREDES","bolditalic","11",240);
+    izquierda(doc,"Decano","italic","11",245);
+    izquierda(doc,"Facultad de Ingeniería Industrial y de Sistemas","italic","11",250);
+    izquierda(doc,"DNI del Decano (e) de la Facultad Nº 06059424","italic","11",255);
+    izquierda(doc,"RUC UNFV Nº 20170934289","italic","11",260);
+    izquierda(doc,"Liquidación: 4511324883","italic","11",265);
+    izquierda(doc,"VGVG/ dvs","italic","11",270);
+    centrar(doc,"Av Oscar R. Benavides (Ex Colonial Nº 450 – 3er. Piso) – Lima 01 / 748-0888 anexo 8761","normal","11",280);
+    centrar(doc,"Correo: oppp.fiis@unfv.edu.pe","bold","11",285);
+    centrar(doc,"_______________________________________________________________________________________","bold","11",287);
+    doc.save(file+".pdf");
+  }
+  function centrar(doc, texto, estilo, size, y) {
+    doc.setFont("times", estilo);
+    doc.setFontSize(size);
+    var textWidth = doc.getTextWidth(texto);
+    var pageWidth = doc.internal.pageSize.getWidth();
+    var x = (pageWidth - textWidth) / 2;
+    doc.text(texto, x, y);
+  }
+
+  function derecha(doc, texto, estilo, size, y) {
+    doc.setFont("times", estilo);
+    doc.setFontSize(parseInt(size)); // Convierte el tamaño a entero
+    var textWidth = doc.getTextWidth(texto);
+    var pageWidth = doc.internal.pageSize.getWidth();
+    var x = pageWidth - textWidth-25;
+    doc.text(texto, x, y);
+  }
+
+  function sangriaderecha(doc, texto, estilo, size, y,x) {
+    doc.setFont("times", estilo);
+    doc.setFontSize(parseInt(size)); // Convierte el tamaño a entero
+    var textWidth = doc.getTextWidth(texto);
+    var pageWidth = doc.internal.pageSize.getWidth();
+    var x = pageWidth - textWidth-x;
+    doc.text(texto, x, y);
+  }
+
+  function izquierda(doc, texto, estilo, size, y) {
+    doc.setFont('times', estilo);
+    doc.setFontSize(parseInt(size)); // Convierte el tamaño a entero
+    var pageWidth = doc.internal.pageSize.getWidth();
+    var x = 25; // Posición izquierda de la página
+    doc.text(texto, x, y);
+  }
+</script>
+
+{% endblock  %}

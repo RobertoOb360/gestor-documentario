@@ -1,0 +1,194 @@
+{% extends 'shared/layout.html' %}
+{% load static %}
+{% block icon %}{% static 'pics/image (3).png' %}{% endblock  %}
+{% block header %}Cartas{% endblock  %}
+<!--SIDEBAR-->
+{% block icon1 %}{% static 'pics/user.png' %}{% endblock  %}
+{% block menu1 %}Perfil{% endblock  %}
+{% block menunom1 %}Perfil{% endblock  %}
+{% block url1 %}{%url 'perfil2' user.id%}{% endblock  %}
+
+{% block icon2 %}{% static 'pics/print.png' %}{% endblock  %}
+{% block menu2 %}Formatos{% endblock  %}
+{% block menunom2 %}Formatos{% endblock  %}
+{% block url2 %}{%url 'formatos1' user.id%}{% endblock  %}
+
+{% block icon3 %}{% static 'pics/notes.png' %}{% endblock  %}
+{% block menu3 %}Cartas{% endblock  %}
+{% block menunom3 %}Cartas{% endblock  %}
+{% block url3 %}{%url 'cartas1' user.id%}{% endblock  %}
+
+{% block icon4 %}{% static 'pics/chart.png' %}{% endblock  %}
+{% block menu4 %}Reportes{% endblock  %}
+{% block menunom4 %}Reportes{% endblock  %}
+{% block url4 %}{%url 'reportes1' user.id%}{% endblock  %}
+
+{% block icon5 %}{% static 'pics/imbox.png' %}{% endblock  %}
+{% block menu5 %}Repositorio{% endblock  %}
+{% block menunom5 %}Repositorio{% endblock  %}
+{% block url5 %}{%url 'repositorio1' user.id%}{% endblock  %}
+<!--CONTENT-->
+{% block content %}
+<link rel="stylesheet" href="{% static 'Assets/css/dataTables.bootstrap5.min.css' %}">
+<script src="{% static 'Assets/lib/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'Assets/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'Assets/js/dataTables.bootstrap5.min.js' %}"></script>
+<script src="{% static 'Assets/js/datatables.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
+
+<div class="container">
+    <br>
+    <h2>Cartas de Presentación</h2>
+    <button class="btn btn-warning" onclick="mostrarDiv('1')">Ver Reporte</button>
+    <button class="btn btn-success"  onclick="mostrarDiv('2')">Generar Cartas</button>
+    <br>
+    <br>
+    <div style="display: block;" id="div1" class="oculto">
+        <table class="table" id="table_id">
+            <thead class="thead-dark">
+              <tr class="table-dark">
+                <th scope="col">#</th>
+                <th scope="col">Código</th>
+                <th scope="col">Estudiante</th>
+                <th scope="col">Empresa</th>
+                <th scope="col">Fecha de Emisión</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for carta in cartas %}
+              <tr>
+                <th scope="row">{{carta.id}}</th>
+                <td>{{carta.cod}}</td>
+                <td>{{carta.solicitud.solicitante.nombres}} {{carta.solicitud.solicitante.apellidos}}</td>
+                <td>{{carta.solicitud.empresa}}</td>
+                <td>{{carta.fecha}}</td>
+                <td><div>
+                    <button class="btn btn-info btn-sm">Reenviar</button>
+                    <button class="btn btn-success btn-sm">Descargar</button>
+                </div></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          
+    </div>
+    <div  style="display: none;" id="div2" class="oculto">
+      <table class="table">
+          <thead class="thead-dark">
+            <tr class="table-dark">
+              <th scope="col">#</th>
+              <th scope="col">N° Solicitud</th>
+              <th scope="col">Estudiante</th>
+              <th scope="col">Empresa</th>
+              <th scope="col">Representante</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for solicitud in solicitudes %}
+            <tr>
+              <th scope="row">{{solicitud.id}}</th>
+              <td>{{solicitud.cod}}</td>
+              <td>{{solicitud.solicitante.nombres}} {{solicitud.solicitante.apellidos}}</td>
+              <td>{{solicitud.empresa}}</td>
+              <td>{{solicitud.destinatario}}</td>
+              <td><div>
+                  <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#voucher{{solicitud.id}}">Ver Recibo</button>
+                  <a class="btn btn-success btn-sm" id="generar1" href="{% url 'cartas_crear' user.id solicitud.id %}" >Generar Carta</a>
+              </div></td>
+            </tr>
+            <div class="modal fade" id="voucher{{solicitud.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Voucher de Solicitud N° {{solicitud.cod}}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="ExternalFiles">
+                      <center><embed src="{{solicitud.voucher.url}}" width="400" height="300"></embed></center>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Rechazar</button>
+                    <a type="button" class="btn btn-success" data-bs-dismiss="modal">Conforme</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </tbody>
+        </table>
+        
+  </div>
+</div>
+
+<script>
+  // Función para mostrar el div deseado y ocultar el otro
+  function mostrarDiv(num) {
+    $('.oculto').hide(); // Oculta todos los divs
+    $('#div' + num).show(); // Muestra el div seleccionado
+  }
+</script>
+<script>
+  $(document).ready(function () {
+      $('#table_id').DataTable({
+        responsive: true,
+        dom: '<"row"<"col-12 col-sm-6 col-md-6"B><"col-12 col-sm-6 col-md-6"f>>' +
+          '<"row"<"col-12"t>>' +
+          '<"row"<"col-12 col-md-6"l><"col-12 col-md-6"p>>',
+        buttons: [
+          {
+            extend: 'excelHtml5',
+            text: 'EXCEL',
+            titleAttr: 'Exportar a Excel',
+            title: 'Registro de Usuarios',
+            className: 'btn btn-success',
+          },
+          {
+            extend: 'pdfHtml5',
+            text: 'PDF',
+            titleAttr: 'Exportar a PDF',
+            title: 'Registro de Usuarios',
+            className: 'btn btn-success',
+          },
+          {
+            extend: 'csvHtml5',
+            text: 'CSV',
+            titleAttr: 'Exportar a CSV',
+            title: 'Registro de Usuarios',
+            className: 'btn btn-success',
+          },
+          {
+            extend: 'copyHtml5',
+            text: 'COPIAR',
+            titleAttr: 'Copiar al Portapapeles',
+            className: 'btn btn-success',
+          }
+        ],
+        pageLength: 25,
+        language: {
+          lengthMenu: "Mostrar _MENU_ registros por página",
+          info: "Mostrando página _PAGE_ de _PAGES_",
+          infoEmpty: "No hay registros disponibles",
+          infoFiltered: "(filtrada de _MAX_ registros)",
+          loadingRecords: "Cargando...",
+          processing: "Procesando...",
+          search: "Buscar:",
+          zeroRecords: "No se encontraron registros disponibles",
+          paginate: {
+            next: "Siguiente",
+            previous: "Anterior"
+          }
+        },
+        lengthMenu: [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 500, "Todos"]],
+        columnDefs: [
+              { targets: [0], className: "text-center", width: "3%" },
+          ],
+  
+      });
+    });
+</script>
+{% endblock  %}

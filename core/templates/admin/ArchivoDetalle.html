@@ -1,0 +1,124 @@
+{% extends 'shared/layout.html' %}
+{% load static %}
+{% block icon %}{% static 'pics/image (6).png' %}{% endblock  %}
+{% block header %}Formatos{% endblock  %}
+<!--SIDEBAR-->
+{% block icon1 %}{% static 'pics/user.png' %}{% endblock  %}
+{% block menu1 %}Perfil{% endblock  %}
+{% block menunom1 %}Perfil{% endblock  %}
+{% block url1 %}{%url 'perfil2' user.id%}{% endblock  %}
+
+{% block icon2 %}{% static 'pics/print.png' %}{% endblock  %}
+{% block menu2 %}Formatos{% endblock  %}
+{% block menunom2 %}Formatos{% endblock  %}
+{% block url2 %}{%url 'formatos1' user.id%}{% endblock  %}
+
+{% block icon3 %}{% static 'pics/notes.png' %}{% endblock  %}
+{% block menu3 %}Cartas{% endblock  %}
+{% block menunom3 %}Cartas{% endblock  %}
+{% block url3 %}{%url 'cartas1' user.id%}{% endblock  %}
+
+{% block icon4 %}{% static 'pics/chart.png' %}{% endblock  %}
+{% block menu4 %}Reportes{% endblock  %}
+{% block menunom4 %}Reportes{% endblock  %}
+{% block url4 %}{%url 'reportes1' user.id%}{% endblock  %}
+
+{% block icon5 %}{% static 'pics/imbox.png' %}{% endblock  %}
+{% block menu5 %}Repositorio{% endblock  %}
+{% block menunom5 %}Repositorio{% endblock  %}
+{% block url5 %}{%url 'repositorio1' user.id%}{% endblock  %}
+<!--CONTENT-->
+{% block content %}
+<!-- Cargar pdf.js y pdf.worker.js -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
+
+<br>
+<div class="container">
+    <h4>Lista de Archivos Cargados de <b>{{archivos.0.subido_por.apellidos}} {{archivos.0.subido_por.nombres}}</b></h4>
+    <br>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Documento</th>
+            <th scope="col">Fecha de Carga</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+            {%for item in archivos%}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{item.nombre}}</td>
+                <td>{{item.fechreg}}</td>
+                <td>
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#archivo{{item.id}}">
+                        Revisar</button>
+                </td>
+              </tr>
+
+              <div class="modal fade" id="archivo{{item.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">{{item.nombre}}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="display: flex;">
+                          <div>
+                            <iframe src="{{item.file.url}}" width="550" height="550" frameborder="0"></iframe>
+                          </div>
+                          <form method="post">
+                            {% csrf_token %}
+                          <div style="padding: 30px;">
+                            <input type="hidden" name="id" value="{{item.id}}">
+                            <label for="" class="form-label">Estado:</label>
+                            <select name="estado" id="" class="form-select">
+                              <option value="1">--Seleccione un Estado--</option>
+                              <option value="2">Observado</option>
+                              <option value="3">Aprobado</option>
+                            </select>
+                            <br>
+                            <label for="" class="form-label">Comentarios:</label>
+                            <textarea name="obs" class="form-control" id="exampleFormControlTextarea1" rows="8" cols="50"></textarea>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+                  </form>
+                  </div>
+                </div>
+              </div>
+              
+
+            {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+<div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasTopLabel">Revisión Completa</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    Se ha registrado correctamente su Revisión, en breve se le notificará al estudiante el estado de su documento.
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% if success%}
+<script>
+  $(document).ready(function () {
+      // Selecciona el offcanvas por su ID y muestra el offcanvas
+      $('#offcanvas').offcanvas('show');
+  });
+</script>
+{% endif %}
+
+
+{% endblock  %}

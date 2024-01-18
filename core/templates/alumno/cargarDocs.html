@@ -1,0 +1,161 @@
+{% extends 'shared/layout.html' %}
+{% load static %}
+{% block icon %}{% static 'pics/image (1).png' %}{% endblock  %}
+{% block header %}Mi Perfil{% endblock  %}
+<!--SIDEBAR-->
+{% block icon1 %}{% static 'pics/user.png' %}{% endblock  %}
+{% block menu1 %}Perfil{% endblock  %}
+{% block menunom1 %}Perfil{% endblock  %}
+{% block url1 %}{%url 'perfil3' user.id%}{% endblock  %}
+
+{% block icon2 %}{% static 'pics/print.png' %}{% endblock  %}
+{% block menu2 %}Cargar Archivos{% endblock  %}
+{% block menunom2 %}Cargar Archivos{% endblock  %}
+{% block url2 %}{%url 'formatos2' user.id%}{% endblock  %}
+
+{% block icon3 %}{% static 'pics/notes.png' %}{% endblock  %}
+{% block menu3 %}Carta{% endblock  %}
+{% block menunom3 %}Carta{% endblock  %}
+{% block url3 %}{%url 'cartas2' user.id%}{% endblock  %}
+
+{% block icon4 %}{% static 'pics/chart.png' %}{% endblock  %}
+{% block menu4 %}Seguimiento{% endblock  %}
+{% block menunom4 %}Seguimiento{% endblock  %}
+{% block url4 %}{%url 'reportes2' user.id%}{% endblock  %}
+
+{% block icon5 %}{% static 'pics/imbox.png' %}{% endblock  %}
+{% block menu5 %}Repositorio{% endblock  %}
+{% block menunom5 %}Repositorio{% endblock  %}
+{% block url5 %}{%url 'repositorio2' user.id%}{% endblock  %}
+
+<!--CONTENT-->
+{% block content %}
+<div class="container">
+    <br>
+    <h4>Subida de Archivos Requeridos</h4>
+    <button class="btn btn-warning" onclick="mostrarDiv('1')">Practicante</button>
+    <button class="btn btn-success"  onclick="mostrarDiv('2')">Contratado</button>
+    <br>
+    <br>
+    <div style="display: block;" id="div1" class="oculto">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr class="table-dark">
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+          <tbody>
+            <tr>
+              {% for plantilla in practicas %}
+                <tr>
+                  <th scope="row">{{plantilla.id}}</th>
+                  <td>{{plantilla.nombre}}</td>
+                  <td><div>
+                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#contrato{{plantilla.id}}">Subir</button>
+                </div></td>
+              </tr>
+              <div class="modal fade" id="contrato{{plantilla.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Subida de Archivo: {{plantilla.nombre}}</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ formato_form.as_p }}
+                        <input type="hidden" name="subido_por" value="{{ user.id }}">
+                        <input type="hidden" name="fechareg" value="{% now 'd-m-Y' %}"> 
+                        <input type="hidden" name="nombre" value="{{plantilla.nombre}}">   
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-success" name="add_document">Subir</button>
+                  </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </tr>
+                {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div  style="display: none;" id="div2" class="oculto">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr class="table-dark">
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% for plantilla in contratos %}
+              <tr>
+                <th scope="row">{{plantilla.id}}</th>
+                <td>{{plantilla.nombre}}</td>
+                <td><div>
+                  <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#plantilla{{plantilla.id}}">Subir</button>
+              </div></td>
+            </tr>
+            <div class="modal fade" id="plantilla{{plantilla.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Subida de Archivo: {{plantilla.nombre}}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      {{ formato_form.as_p }}
+                      <input type="hidden" name="subido_por" value="{{ user.id }}">
+                      <input type="hidden" name="fechareg" value="{% now 'd-m-Y' %}">  
+                      <input type="hidden" name="nombre" value="{{plantilla.nombre}}">  
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" name="add_document">Subir</button>
+                </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </tr>
+              {% endfor %}
+      </table>
+  </div>
+</div>
+
+<script>
+    // Función para mostrar el div deseado y ocultar el otro
+    function mostrarDiv(num) {
+      $('.oculto').hide(); // Oculta todos los divs
+      $('#div' + num).show(); // Muestra el div seleccionado
+    }
+  </script>
+  <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasTopLabel">Carga Completa</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      Su archivo ha sido cargado con éxito al sistema, en breve se realizarán las revisiones correspondientes.
+    </div>
+  </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% if success%}
+<script>
+    $(document).ready(function () {
+        // Selecciona el offcanvas por su ID y muestra el offcanvas
+        $('#offcanvas').offcanvas('show');
+    });
+</script>
+{% endif %}
+
+
+{% endblock  %}

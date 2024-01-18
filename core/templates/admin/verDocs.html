@@ -1,0 +1,56 @@
+{% extends 'shared/layout.html' %}
+{% load static %}
+{% block icon %}{% static 'pics/image (1).png' %}{% endblock  %}
+{% block header %}Repositorio{% endblock  %}
+<!--SIDEBAR-->
+{% block icon1 %}{% static 'pics/user.png' %}{% endblock  %}
+{% block menu1 %}Perfil{% endblock  %}
+{% block menunom1 %}Perfil{% endblock  %}
+{% block url1 %}{%url 'perfil2' user.id%}{% endblock  %}
+
+{% block icon2 %}{% static 'pics/print.png' %}{% endblock  %}
+{% block menu2 %}Formatos{% endblock  %}
+{% block menunom2 %}Formatos{% endblock  %}
+{% block url2 %}{%url 'formatos1' user.id%}{% endblock  %}
+
+{% block icon3 %}{% static 'pics/notes.png' %}{% endblock  %}
+{% block menu3 %}Cartas{% endblock  %}
+{% block menunom3 %}Cartas{% endblock  %}
+{% block url3 %}{%url 'cartas1' user.id%}{% endblock  %}
+
+{% block icon4 %}{% static 'pics/chart.png' %}{% endblock  %}
+{% block menu4 %}Reportes{% endblock  %}
+{% block menunom4 %}Reportes{% endblock  %}
+{% block url4 %}{%url 'reportes1' user.id%}{% endblock  %}
+
+{% block icon5 %}{% static 'pics/imbox.png' %}{% endblock  %}
+{% block menu5 %}Repositorio{% endblock  %}
+{% block menunom5 %}Repositorio{% endblock  %}
+{% block url5 %}{%url 'repositorio1' user.id%}{% endblock  %}
+<!--CONTENT-->
+{% block content %}
+<br>
+<div class="container">
+    <h3>Revisión de Documentos Enviados</h3>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr class="table-dark">
+                <th scope="col">#</th>
+                <th scope="col">Estudiante</th>
+                <th scope="col">Código</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for plantilla in revisiones_distintas %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ plantilla.nombres }}, {{ plantilla.apellidos }}</td>
+                    <td>{{ plantilla.codigo }}</td>
+                    <td><a href="{% url 'revisar' user.id plantilla.id %}" class="btn btn-outline-success btn-sm btn-block">Revisar Archivos</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock  %}

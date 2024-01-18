@@ -1,0 +1,65 @@
+{% extends 'shared/layout.html' %}
+{% load static %}
+{% block icon %}{% static 'pics/image (1).png' %}{% endblock  %}
+{% block header %}Mi Perfil{% endblock  %}
+<!--SIDEBAR-->
+{% block icon1 %}{% static 'pics/user.png' %}{% endblock  %}
+{% block menu1 %}Perfil{% endblock  %}
+{% block menunom1 %}Perfil{% endblock  %}
+{% block url1 %}{%url 'perfil3' user.id%}{% endblock  %}
+
+{% block icon2 %}{% static 'pics/print.png' %}{% endblock  %}
+{% block menu2 %}Cargar Archivos{% endblock  %}
+{% block menunom2 %}Cargar Archivos{% endblock  %}
+{% block url2 %}{%url 'formatos2' user.id%}{% endblock  %}
+
+{% block icon3 %}{% static 'pics/notes.png' %}{% endblock  %}
+{% block menu3 %}Carta{% endblock  %}
+{% block menunom3 %}Carta{% endblock  %}
+{% block url3 %}{%url 'cartas2' user.id%}{% endblock  %}
+
+{% block icon4 %}{% static 'pics/chart.png' %}{% endblock  %}
+{% block menu4 %}Seguimiento{% endblock  %}
+{% block menunom4 %}Seguimiento{% endblock  %}
+{% block url4 %}{%url 'reportes2' user.id%}{% endblock  %}
+
+{% block icon5 %}{% static 'pics/imbox.png' %}{% endblock  %}
+{% block menu5 %}Repositorio{% endblock  %}
+{% block menunom5 %}Repositorio{% endblock  %}
+{% block url5 %}{%url 'repositorio2' user.id%}{% endblock  %}
+<!--CONTENT-->
+{% block content %}
+<br>
+<div class="container">
+    <h4>Estado de mis Documentos</h4>
+    <table class="table">
+        <thead class="thead-dark">
+          <tr class="table-dark">
+            <th scope="col">Archivo</th>
+            <th scope="col">Fecha de Carga</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Anotaciones</th>
+          </tr>
+        </thead>
+          <tbody>
+            <tr>
+              {% for plantilla in archivos %}
+                <tr>
+                  <td>{{plantilla.archivo.nombre}}</td>
+                  <td>{{plantilla.archivo.fechreg|date:"d-m-Y"}}</td>
+                  {% if plantilla.estado == 1 %}
+                  <td>En Proceso</td>
+                  {% elif plantilla.estado == 2 %}
+                  <td>Observado</td>
+                  {% elif plantilla.estado == 3 %}
+                  <td>Aceptado</td>
+                  {% endif %}
+                  <td>{{plantilla.obs}}</td>
+              </tr>
+                {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+
+{% endblock  %}

@@ -1,0 +1,193 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title%} OPPP FIIS{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static 'pics/logo.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'Assets/css/dataTables.bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Assets/fontawesome-free-6.0.0-web/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Assets/css/StyleSlidebar.css' %}">
+
+    {% comment %} <link rel="stylesheet" href="{% block stylesheet %}{% static 'css/layout.css' %}{% endblock %}"> {% endcomment %}
+    {% comment %} <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"> {% endcomment %}
+    {% comment %} <link href="https://cdn.datatables.net/v/bs5/dt-1.13.8/datatables.min.css" rel="stylesheet"> {% endcomment %}
+</head>
+<body>
+    
+    {% comment %} <script src="https://cdn.datatables.net/v/bs5/dt-1.13.8/datatables.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script> {% endcomment %}
+    {% comment %} <header>
+        <div class="panel-sup" style="background-image: url('{% static 'pics/background.jpg' %}'); background-size: cover;">
+            <div class="picture">
+                <img src="{% static 'pics/logo.png'%}" alt="" height="70px" >
+            </div>
+                <div class="titulo" style="text-align: center;">
+                    <img src="{% block icon %}{% static 'pics/image (3).png' %}{% endblock %}" alt="" height="40px">
+                    <h2 style="margin-left: 20px;">{% block  header %}Gestión Documentaria OPPP{% endblock   %}</h2>
+                </div>
+        </div>
+    </header> {% endcomment %}
+    <div class="sidebar" id="sidebar-layout">
+        <div class="logo-details">
+            <div class="logo_name">Opciones</div>
+            <i class='fa-solid fa-bars' id="btn"></i>
+        </div>
+        <div class="nav-list">
+            <ul>
+                <li id="opc1">
+                    <div class="item">
+                        <a id="opc1-sub1" href="{%block url1%}#{%endblock%}" class="sub-item custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="right" title="{% block  menunom1 %}Perfil{% endblock   %}">
+                            <i class='fa-solid fa-user'></i><span class="links_name">{% block  menu1 %}Perfil{% endblock   %}</span>
+                            <span class="tooltip">{% block  toltip1 %}Perfil{% endblock   %}</span>
+                        </a>
+                    </div>
+                </li>
+                <li id="opc2">
+                    <div class="item">
+                        <a id="opc2-sub1" href="{%block url2%}#{%endblock%}" class="sub-item custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="right" title="{% block  menunom2 %}Perfil{% endblock   %}">
+                            <i class='fa-solid fa-file'></i><span class="links_name">{% block  menu2 %}Perfil{% endblock   %}</span>
+                            <span class="tooltip">{% block  toltip2 %}Perfil{% endblock   %}</span>
+                        </a>
+                    </div>
+                </li>
+                <li id="opc3">
+                    <div class="item">
+                        <a id="opc3-sub1" href="{%block url3%}#{%endblock%}" class="sub-item custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="right" title="{% block  menunom3 %}Perfil{% endblock   %}">
+                            <i class='fa-solid fa-address-card'></i><span class="links_name">{% block  menu3 %}Perfil{% endblock   %}</span>
+                            <span class="tooltip">{% block  toltip3 %}Perfil{% endblock   %}</span>
+                        </a>
+                    </div>
+                </li>
+                <li id="opc4">
+                    <div class="item">
+                        <a id="opc4-sub1" href="{%block url4%}#{%endblock%}" class="sub-item custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="right" title="{% block  menunom4 %}Perfil{% endblock   %}">
+                            <i class='fa-solid fa-eye'></i><span class="links_name">{% block  menu4 %}Perfil{% endblock   %}</span>
+                            <span class="tooltip">{% block  toltip4 %}Perfil{% endblock   %}</span>
+                        </a>
+                    </div>
+                </li>
+                <li id="opc5">
+                    <div class="item">
+                        <a id="opc5-sub1" href="{%block url5%}#{%endblock%}" class="sub-item custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="right" title="{% block  menunom5 %}Perfil{% endblock   %}">
+                            <i class='fa-solid fa-file'></i><span class="links_name">{% block  menu5 %}Perfil{% endblock   %}</span>
+                            <span class="tooltip">{% block  toltip5 %}Perfil{% endblock   %}</span>
+                        </a>
+                    </div>
+                </li>
+               
+                {% comment %} <li id="opc4">
+                    <div class="item">
+                        <a class="sub-btn custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="right" title="Actividades">
+                            <i class='fas fa-square-poll-vertical'></i><span class="links_name">Actividades</span> <i class="fas fa-angle-right dropdown-open"></i>
+                            <span class="tooltip">Actividades</span>
+                        </a>
+                        <div class="sub-menu">
+                            <a id="opc4-sub1" href="/Hito/HitoList" class="sub-item custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="right" title="Historias de Usuario">
+                                <i class='fa-solid fa-circle' style="font-size: 12px;"></i><span class="links_name">Historias de Usuario</span>
+                                <span class="tooltip">Historias de Usuario</span>
+                            </a>
+                            <a id="opc4-sub2" href="/Tarea/TareaList" class="sub-item custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="right" title="Tareas">
+                                <i class='fa-solid fa-circle' style="font-size: 12px;"></i><span class="links_name">Tareas</span>
+                                <span class="tooltip">Tareas</span>
+                            </a>
+                            <a id="opc4-sub3" href="/Informe/InformeList" class="sub-item custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="right" title="Informes">
+                                <i class='fa-solid fa-circle' style="font-size: 12px;"></i><span class="links_name">Informes</span>
+                                <span class="tooltip">Informes</span>
+                            </a>
+                        </div>
+                    </div>
+                </li> {% endcomment %}
+            
+                <li><pre><br /><br /><br /></pre></li>
+            </ul>
+        </div>
+        <li class="profile">
+            <div class="profile-details">
+                <div class="name_job">
+                    <div class="name">Cerrar Sesión</div>
+                </div>
+            </div>
+            <a href="/" class="fondowhite"><i class='fa-solid fa-door-open' id="log_out"></i></a>
+        </li>
+    </div>
+    <section class="home-section" id="section-layout">
+        <header id="header-layout">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container-fluid">
+                    <a href="/" class="navbar-brand" asp-area="">
+                        <img src="{% static 'pics/logo.png'%}" width="120" class="img-fluid">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+                        <div class="d-flex">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/">Cerrar Sesión</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"><i class="fa-solid fa-circle-user fa-xl"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container-fluid" id="body-layout">
+            {% block content%}
+
+
+            {% endblock %}
+        </div>
+        <footer id="footer-layout">
+            <p class="px-4 mt-4">&copy; Todos los derechos reservados.</p>
+        </footer>
+    </section>
+    <script src="{% static 'Assets/lib/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'Assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'Assets/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'Assets/js/dataTables.bootstrap5.min.js' %}"></script>
+    <script src="{% static 'Assets/js/datatables.min.js' %}"></script>
+    <script src="{% static 'Assets/js/Slidebar.js' %}"></script>
+    <!-- <main>
+        {% comment %} <div id="wrapper" class="toggled">
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li>
+                        <a href="{%block url1%}#{%endblock%}"><img src="{% block icon1 %}{% static 'pics/user.png' %}{% endblock %}" alt="" height="40px" style="margin-right: 20px;">
+                            {% block  menu1 %}Perfil{% endblock   %}</a>
+                    </li>
+                    <li>
+                        <a href="{%block url2%}#{%endblock%}"><img src="{% block icon2 %}{% static 'pics/user.png' %}{% endblock %}" alt="" height="40px" style="margin-right: 20px;">
+                            {% block  menu2 %}Perfil{% endblock   %}</a>
+                    </li>
+                    <li>
+                        <a href="{%block url3%}#{%endblock%}"><img src="{% block icon3 %}{% static 'pics/user.png' %}{% endblock %}" alt="" height="40px" style="margin-right: 20px;">
+                            {% block  menu3 %}Perfil{% endblock   %}</a>
+                    </li>
+                    <li>
+                        <a href="{%block url4%}#{%endblock%}"><img src="{% block icon4 %}{% static 'pics/user.png' %}{% endblock %}" alt="" height="40px" style="margin-right: 20px;">
+                            {% block  menu4 %}Perfil{% endblock   %}</a>
+                    </li>
+                    <li>
+                        <a href="{%block url5%}#{%endblock%}"><img src="{% block icon5 %}{% static 'pics/user.png' %}{% endblock %}" alt="" height="40px" style="margin-right: 20px;">
+                            {% block  menu5 %}Perfil{% endblock   %}</a>
+                    </li>
+                    <li>
+                        <a href="{%block url6%}#{%endblock%}"><img src="{% block icon6 %}{% static 'pics/user.png' %}{% endblock %}" alt="" height="40px" style="margin-right: 20px;">
+                            {% block  menu6 %}Perfil{% endblock   %}</a>
+                    </li>
+                </ul>
+            </div> {% endcomment %}
+    </main> -->
+</body>
+</html>

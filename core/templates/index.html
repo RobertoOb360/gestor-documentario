@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor Documentario | UNFV FIIS</title>
+    <link rel="shortcut icon" href="{% static 'pics/logo.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <img src="{% static 'pics/logo.png' %}" alt="" width="100" height="40">
+            <span style="color:#4D5656"><b>Oficina de Prácticas Pre Profesionales</b></span>
+        </div>
+        <div class="navbar-links">
+            <a href="{%url 'login'%}">Inicio de Sesión</a>
+        </div>
+    </nav>
+    <div class="slogan">
+        <h1>Sistema de Gestión Documentaria</h1>
+        <p>Una manera ágil de gestionar tus trámites en tu proceso de formación profesional</p>
+        <br>
+    </div>
+    <div class="background-container">
+        <div class='ripple-background'>
+            <div class='circle xxlarge shade1'></div>
+            <div class='circle xlarge shade2'></div>
+            <div class='circle large shade3'></div>
+            <div class='circle mediun shade4'></div>
+            <div class='circle small shade5'></div>
+          </div>
+        </div>
+</body>
+</html>
